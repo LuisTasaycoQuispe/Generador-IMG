@@ -43,3 +43,32 @@ La imagen generada
 
 
 # COMO PODEMOS IMPLEMENTARLO EN NUESTRO PROYECTO SPRING BOOT <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Spring_Boot.svg/640px-Spring_Boot.svg.png" style="width: 30px; height: 30px;" >
+
+Dentro de nuestro proyecto vamos a colocar solamente el KEY lo remaplzaremos por el que nos da la plataforma Rapid
+  
+![image](https://github.com/user-attachments/assets/28a043c5-3d11-4c3c-8be5-c2812e575e48)
+
+Ese key lo remplazaremos su ubicacion es el aplication.properties
+
+![image](https://github.com/user-attachments/assets/9a20460e-eb4b-46c0-8749-a2559ea923c4)
+![image](https://github.com/user-attachments/assets/5ba0c45c-c89f-4785-a446-5a616c515f91)
+
+
+Ahora si queremos probarlo en postman ya no habra necesidad de agregar header debido a que el proyecto ya esta configurado con todo ello lo unico que varia siempre es el kEY
+
+
+``` JSON
+{
+  "inputs": "Un gato durante el dia"
+}
+
+``` 
+![image](https://github.com/user-attachments/assets/e739e27e-1bd2-44d3-bd1b-f562778c6708)
+
+
+
+La imagen generada [Enlace de la Imagen](https://storage.googleapis.com/face-10b17.appspot.com/1725485016212_realistic.jpg?GoogleAccessId=face-10b17%40appspot.gserviceaccount.com&Expires=1725488616&Signature=WM2CymCh42cpk6qnf7NzKauQQQ0FOlYkoIHXelwyTeGE9aqpwCW2xWurM7lfw%2F7j%2FezQZnB0byz1HTDnkBsOuqJMhNqqEwztPTPBKQLFf6kSwvZcFKIG2fE1HmtGvs5TWNPxdeke%2FgGZkGAgvl8I%2BuqJlRpMsrK5zyYz2WCLmpCCo7w8aeVhu8x%2F83KDQw12%2BoJVOcAQF6ppJHgh2QCy7pfxp%2FqKr0o%2BKxLNsj6Hi1T8EAhTMkjj1v4cxgzpgqQ2PKIec69TF96NmpG2iVLlHKpUv1rYq6OrT5Zv9n6n3tbY2KmV9hLqD%2FIL4SUfTxnfCADyZyrcBA%2BRvgx7QUkOCw%3D%3D)  
+
+![image](https://github.com/user-attachments/assets/52faedef-aa7f-4a2a-bcad-dc5983d32ff5)
+
+
