@@ -1,4 +1,5 @@
 package pe.edu.vallegrande.imagen.service;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -17,48 +18,32 @@ public class ImageGenerationService {
     @Value("${api.key}")
     private String apiKey;
 
+    @Value("${api.host}")
+    private String apiHost;
+
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public String generateImage(String inputText) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", "application/json");
-        headers.set("x-rapidapi-key", apiKey);
-        headers.set("x-rapidapi-ua", "RapidAPI-Playground");
-
-        headers.set("x-rapidapi-host", "ai-text-to-image-generator-api.p.rapidapi.com");
-
-        String requestBody = "{\"inputs\":\"" + inputText + "\"}";
-
-        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
-
-        ResponseEntity<String> response = restTemplate.exchange(apiEndpoint+"realistic", HttpMethod.POST, requestEntity, String.class);
-
-        if (response.getStatusCode() == HttpStatus.OK) {
-            String jsonResponse = response.getBody();
-            return jsonResponse; 
-        } else {
-            throw new RuntimeException("Error al generar la Imagen   :( " + response.getStatusCode());
-        }
-    }
     public String generateImage3D(String inputText) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         headers.set("x-rapidapi-key", apiKey);
-        headers.set("x-rapidapi-ua", "RapidAPI-Playground");
+        headers.set("x-rapidapi-host", apiHost);
 
-        headers.set("x-rapidapi-host", "ai-text-to-image-generator-api.p.rapidapi.com");
-
-        String requestBody = "{\"inputs\":\"" + inputText + "\"}";
-
+        String requestBody = String.format("{\"inputs\":\"%s\"}", inputText);
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 
-        ResponseEntity<String> response = restTemplate.exchange(apiEndpoint+"3D", HttpMethod.POST, requestEntity, String.class);
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(apiEndpoint + "3D", HttpMethod.POST, requestEntity,
+                    String.class);
 
-        if (response.getStatusCode() == HttpStatus.OK) {
-            String jsonResponse = response.getBody();
-            return jsonResponse; 
-        } else {
-            throw new RuntimeException("Error al generar la Imagen   :( " + response.getStatusCode());
+            if (response.getStatusCode() == HttpStatus.OK) {
+                return response.getBody();
+            } else {
+                throw new RuntimeException(
+                        "Error generating 3D image: " + response.getStatusCode() + " - " + response.getBody());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error while calling the external API: " + e.getMessage(), e);
         }
     }
 }

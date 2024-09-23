@@ -1,61 +1,39 @@
 package pe.edu.vallegrande.imagen.controller;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
+
+import pe.edu.vallegrande.imagen.service.ImageGenerationService;
 
 @RestController
 @RequestMapping("/generadorIMG")
 public class ImageController {
 
-    @Value("${api.endpoint}")
-    private String apiEndpoint;
+    private final ImageGenerationService imageGenerationService;
 
-    @Value("${api.key}")
-    private String apiKey;
-
-    @PostMapping("/realistic")
-    public ResponseEntity<?> generateImage(@RequestBody ImageRequest imageRequest) {
-        String inputText = imageRequest.getInput();
-
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("x-rapidapi-key", apiKey);
-        headers.set("x-rapidapi-host", "ai-text-to-image-generator-api.p.rapidapi.com");
-        headers.set("Content-Type", "application/json");
-
-        String requestBody = String.format("{\"inputs\":\"%s\"}", inputText);
-        HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
-
-        ResponseEntity<String> response = restTemplate.postForEntity(apiEndpoint+"realistic", request, String.class);
-        return ResponseEntity.ok(response.getBody());
+    public ImageController(ImageGenerationService imageGenerationService) {
+        this.imageGenerationService = imageGenerationService;
     }
-
 
     @PostMapping("/imagen3d")
-    public ResponseEntity<?> generateImage3D(@RequestBody ImageRequest imageRequest) {
-        String inputText = imageRequest.getInput();
-
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("x-rapidapi-key", apiKey);
-        headers.set("x-rapidapi-ua", "RapidAPI-Playground");
-
-        headers.set("x-rapidapi-host", "ai-text-to-image-generator-api.p.rapidapi.com");
-        headers.set("Content-Type", "application/json");
-
-        String requestBody = String.format("{\"inputs\":\"%s\"}", inputText);
-        HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
-
-        ResponseEntity<String> response = restTemplate.postForEntity(apiEndpoint+"3D", request, String.class);
-        return ResponseEntity.ok(response.getBody());
+    public ResponseEntity<?> generateImage3D(@Valid @RequestBody ImageRequest imageRequest) {
+        try {
+            String response = imageGenerationService.generateImage3D(imageRequest.getInput());
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error generating 3D image: " + e.getMessage());
+        }
     }
+
 }
 
 class ImageRequest {
+    @NotEmpty(message = "Input cannot be empty")
     private String input;
 
     public String getInput() {
