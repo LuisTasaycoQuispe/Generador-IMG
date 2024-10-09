@@ -1,0 +1,4 @@
+api:
+  endpoint: https://ai-text-to-image-generator-api.p.rapidapi.com/
+  host: ai-text-to-image-generator-api.p.rapidapi.com
+  key: a2775c77cbmsh329942f881cad3bp13c8c2jsndd0a6928cb03

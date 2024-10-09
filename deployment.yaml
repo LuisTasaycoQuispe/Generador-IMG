@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springboot-generador
+  namespace: vallegrande
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: springboot-generador
+  template:
+    metadata:
+      labels:
+        app: springboot-generador
+    spec:
+      containers:
+      - name: springboot-generador
+        image: luistasayco2004/springboot-generador:v1.0
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "256Mi"  # Memoria mínima solicitada
+            cpu: "500m"      # CPU mínima solicitada
+          limits:
+            memory: "512Mi"  # Memoria máxima permitida
+            cpu: "1"         # CPU máxima permitida

@@ -6,7 +6,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Collections;
+import java.util.Arrays;
 
 @Configuration
 public class SwaggerConfig {
@@ -14,7 +14,10 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI apiInfo() {
         return new OpenAPI()
-                .servers(Collections.singletonList(new Server().url("https://sturdy-spoon-qwq97j7ww4phxgpw-8080.app.github.dev/")))
+                .servers(Arrays.asList(
+                        new Server().url("https://sturdy-spoon-qwq97j7ww4phxgpw-8080.app.github.dev/"),
+                        new Server().url("http://localhost:8080/")
+                ))
                 .info(new Info()
                         .title("Generador de Imagenes")
                         .description("Luis Angel Tasayco Quispe")
